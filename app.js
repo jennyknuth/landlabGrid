@@ -18,13 +18,12 @@ var getNodes = function (rows, columns) {
 }
 
 var nodes = getNodes(rows, columns);
-var markers = [
-  { id: 0, name: 'circle', path: 'M 0, 0  m -5, 0  a 5,5 0 1,0 10,0  a 5,5 0 1,0 -10,0', viewbox: '-6 -6 12 12' }
-  , { id: 1, name: 'square', path: 'M 0,0 m -5,-5 L 5,-5 L 5,5 L -5,5 Z', viewbox: '-5 -5 10 10' }
-  , { id: 2, name: 'arrow', path: 'M 0,0 m -5,-5 L 5,0 L -5,5 Z', viewbox: '-5 -5 10 10' }
-  , { id: 3, name: 'stub', path: 'M 0,0 m -1,-5 L 1,-5 L 1,5 L -1,5 Z', viewbox: '-1 -5 2 10' }
-]
-
+  // var markers = [
+  //   { id: 0, name: 'circle', path: 'M 0, 0  m -5, 0  a 5,5 0 1,0 10,0  a 5,5 0 1,0 -10,0', viewbox: '-6 -6 12 12' }
+  //   , { id: 1, name: 'square', path: 'M 0,0 m -5,-5 L 5,-5 L 5,5 L -5,5 Z', viewbox: '-5 -5 10 10' }
+  //   , { id: 2, name: 'arrow', path: 'M 0,0 m -5,-5 L 5,0 L -5,5 Z', viewbox: '-5 -5 10 10' }
+  //   , { id: 3, name: 'stub', path: 'M 0,0 m -1,-5 L 1,-5 L 1,5 L -1,5 Z', viewbox: '-1 -5 2 10' }
+  // ]
 
 var svg = d3.select("#chart").append("svg") // attach chart to the DOM and center it within an svg element based on margins
     .attr("width", width + margin.left + margin.right)
@@ -35,18 +34,6 @@ var svg = d3.select("#chart").append("svg") // attach chart to the DOM and cente
 var llGrid = svg.selectAll(".grid") // make chart with data, data can be a hard coded array or an array of objects brought in through another file
     .data(nodes)
     .enter().append("g")
-
-llGrid.append("circle")
-  .attr("cx", function(d) { return (d % columns) * (cellSize); })
-  .attr("cy", function(d) {
-    // return (Math.floor(d/columns) * cellSize)
-    return ( (((rows - 1) - parseInt(d/columns))) * cellSize)
-  })
-  .attr("r", cellSize/8)
-  .attr("fill", colors[0])
-  .attr("class", "node")
-
-// var defs = svg.append("defs")
 
 var paths = svg.append('g')
   .attr('id', 'markers')
@@ -79,16 +66,37 @@ svg.append("defs").selectAll('marker')
   //     .attr('d', function(d){ return d.path })
   //     .attr('fill', 'brown');
 
-var path = paths.selectAll('path')
-  .data(nodes)
-  .enter()
-  .append('path')
-    .attr('d', function(d,i){ return 'M 0,' + (i * cellSize) + ' L ' + (cellSize) + ',' + (i * cellSize) + '' })
-    .attr('stroke', 'brown')
-    .attr('stroke-width', 3)
-    // .attr('stroke-linecap', 'round')
-    .attr('marker-start', function(d,i){ return 'url(#circle)' })
-    .attr('marker-end', function(d,i){ return 'url(#arrow)' })
+llGrid.append("circle")
+  .attr("cx", function(d) { return (d % columns) * (cellSize); })
+  .attr("cy", function(d) {
+    // return (Math.floor(d/columns) * cellSize)
+    return ( (((rows - 1) - parseInt(d/columns))) * cellSize)
+  })
+  .attr("r", cellSize/8)
+  .attr("fill", colors[0])
+  .attr("class", "node")
+
+llGrid.append('path')
+  .attr('d', function(d,i){ console.log(d); return 'M 0,' + (i * cellSize) + ' L ' + (cellSize) + ',' + (i * cellSize) + '' })
+  .attr('stroke', 'black')
+  .attr('stroke-width', 3)
+  // .attr('stroke-linecap', 'round')
+  // .attr('marker-start', 'url(#circle)')
+  .attr('marker-end', function(d,i){ return 'url(#arrow)' })
+  .attr('marker-mid', function(d, i ) { return i})
+
+
+
+// var path = paths.selectAll('path')
+//   .data(nodes)
+//   .enter()
+//   .append('path')
+//     .attr('d', function(d,i){ return 'M 0,' + (i * cellSize) + ' L ' + (cellSize) + ',' + (i * cellSize) + '' })
+//     .attr('stroke', 'brown')
+//     .attr('stroke-width', 3)
+//     // .attr('stroke-linecap', 'round')
+//     .attr('marker-start', function(d,i){ return 'url(#circle)' })
+//     .attr('marker-end', function(d,i){ return 'url(#arrow)' })
 
 llGrid.append("text")
     .text(function(d) { return d })
