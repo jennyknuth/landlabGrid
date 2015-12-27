@@ -53,9 +53,9 @@ var paths = svg.append('g')
   .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 svg.append("defs").selectAll('marker')
-.data(nodes)
+.data(['circle', 'arrow'])
   .enter().append("marker")
-    .attr("id", function(d) { return d; }) // define 'circle' or 'arrow' here
+    .attr("id", function(d) { console.log(d); return d; }) // define 'circle' or 'arrow' here
     .attr("viewBox", "0 -6 14 12")
     .attr("refX", 0)
     .attr("refY", 0)
@@ -63,7 +63,7 @@ svg.append("defs").selectAll('marker')
     .attr("markerHeight", 6)
     .attr("orient", "auto")
   .append("path")
-    .attr("d", "M0,-5 L14,0 L0,5");
+    .attr("d", "M0,-5 L14,0 L0,5"); // make this a function with and check for circle or arrow! Or a function that maps to object with correct attributes
   // .data(markers)
   // .enter()
   // .append('marker')
@@ -87,8 +87,8 @@ var path = paths.selectAll('path')
     .attr('stroke', 'brown')
     .attr('stroke-width', 3)
     // .attr('stroke-linecap', 'round')
-    .attr('marker-start', function(d,i){ return 'url(#' + i + ')' })
-    .attr('marker-end', function(d,i){ return 'url(#' + i + ')' })
+    .attr('marker-start', function(d,i){ return 'url(#circle)' })
+    .attr('marker-end', function(d,i){ return 'url(#arrow)' })
 
 llGrid.append("text")
     .text(function(d) { return d })
