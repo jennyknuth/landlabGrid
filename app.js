@@ -70,13 +70,17 @@ llGrid.append("circle")
   .attr("class", "node")
 
 llGrid.append('path')
-  .attr('d', function(d,i){ console.log('d.x', d.x); console.log('d.y', d.y); return 'M ' + d.x + ',' + d.y + ' L ' + (d.x ) + ',' + (d.y + cellSize) })
+  .attr('d', function(d,i){
+    console.log('d.x', d.x);
+    console.log('d.y', d.y);
+    return ('M ' + d.x + ',' + d.y + ' L ' + (d.x ) + ',' + (d.y + cellSize/2) + ' L ' + (d.x ) + ',' + (d.y + cellSize))
+  })
   .attr('stroke', 'black')
   .attr('stroke-width', 2)
   // .attr('stroke-linecap', 'round')
   .attr('marker-start', 'url(#circle)')
   .attr('marker-end', 'url(#arrow)')
-  // .attr('marker-mid', 'url(hey)')
+  // .attr('marker-mid', 'url(#stub)')
 
 llGrid.append("text")
     .text(function(d, i) { return i })
